@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Moje Zwierzęta – Wielki Atlas Przyrody</title>
+
+<meta name="description" content="Poznaj 30 fascynujących zwierząt. Oglądaj zdjęcia, poznawaj ciekawostki, słuchaj odgłosów i rozwiązuj quiz.">
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #080d1b;
+    color: #f4f3ff;
+}
+
+header {
+    text-align: center;
+    padding: 65px 20px;
+    background: linear-gradient(120deg,#101d43,#542b82,#087c88);
+    background-size: 250% 250%;
+    animation: gradient 10s infinite;
+}
+
+@keyframes gradient {
+    0% {background-position: 0% 50%}
+    50% {background-position: 100% 50%}
+    100% {background-position: 0% 50%}
+}
+
+header h1 {
+    font-size: 45px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 25px #b69aff;
+}
+
+header p {
+    color: #e1dcff;
+    font-size: 18px;
+}
+
+nav {
+    background: #11182c;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #423b70;
+}
+
+button {
+    background: #29264d;
+    color: white;
+    border: 1px solid #51478c;
+    padding: 11px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+button:hover {
+    background: #7955d9;
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px #7955d977;
+}
+
+main {
+    max-width: 1250px;
+    margin: auto;
+    padding: 25px;
+}
+
+.intro {
+    text-align: center;
+    padding: 40px 20px;
+    margin-bottom: 30px;
+    border-radius: 20px;
+    background: linear-gradient(130deg,#171e3e,#29204e);
+    border: 1px solid #6654a5;
+    animation: fade .8s;
+}
+
+.intro h2 {
+    color: #c5aaff;
+    font-size: 29px;
+    margin-bottom: 15px;
+}
+
+.intro p {
+    line-height: 1.7;
+    color: #d0d5ef;
+}
+
+@keyframes fade {
+    from {opacity: 0; transform: translateY(20px)}
+    to {opacity: 1; transform: translateY(0)}
+}
+
+h2.section-title {
+    color: #c5aaff;
+    margin: 30px 0 20px;
+    font-size: 27px;
+}
+
+.search {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+input {
+    flex: 1;
+    min-width: 200px;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #62569c;
+    background: #171d35;
+    color: white;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filters button.active {
+    background: #8058e8;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+    gap: 20px;
+}
+
+.card {
+    background: linear-gradient(145deg,#191f3b,#272047);
+    border: 1px solid #494276;
+    border-radius: 17px;
+    overflow: hidden;
+    transition: .35s;
+    animation: fade .6s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px #7858dd55;
+    border-color: #a78bfa;
+}
+
+.card img {
+    width: 100%;
+    height: 175px;
+    object-fit: cover;
+    background: #202747;
+}
+
+.card-content {
+    padding: 17px;
+}
+
+.card h3 {
+    color: #d3c5ff;
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: #b5bdd9;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.card-buttons button {
+    flex: 1;
+}
+
+.panel {
+    background: linear-gradient(130deg,#171e3c,#26204d);
+    border: 1px solid #51478c;
+    padding: 25px;
+    border-radius: 18px;
+    margin-top: 35px;
+}
+
+.panel h2 {
+    color: #c7b3ff;
+    margin-bottom: 17px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #030615ee;
+    z-index: 30;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.modal-content {
+    background: #171d39;
+    border: 1px solid #9171eb;
+    border-radius: 18px;
+    padding: 25px;
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: fade .3s;
+}
+
+.modal-content h2 {
+    color: #d0baff;
+    margin: 15px 0;
+}
+
+.modal-content img {
+    width: 100%;
+    max-height: 280px;
+    object-fit: cover;
+    border-radius: 13px;
+}
+
+.modal-content p {
+    margin: 13px 0;
+    line-height: 1.65;
+    color: #e0e4fa;
+}
+
+.modal-content b {
+    color: #c5aaff;
+}
+
+.close {
+    float: right;
+}
+
+.fact-box {
+    padding: 20px;
+    border-radius: 15px;
+    background: #20264b;
+    line-height: 1.7;
+    color: #e4ddff;
+    margin: 15px 0;
+}
+
+.quiz-question {
+    font-size: 20px;
+    margin: 20px 0;
+    line-height: 1.5;
+}
+
+.quiz-options {
+    display: grid;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.quiz-options button {
+    text-align: left;
+    padding: 15px;
+}
+
+.quiz-options button:disabled {
+    opacity: 1;
+    cursor: default;
+}
+
+#quizFeedback {
+    line-height: 1.6;
+    margin: 15px 0;
+    color: #c5f6d7;
+}
+
+footer {
+    margin-top: 50px;
+    padding: 35px;
+    text-align: center;
+    background: #11182c;
+    color: #aeb8d8;
+    line-height: 1.8;
+}
+
+@media(max-width:600px) {
+    header h1 {font-size:32px}
+    main {padding:14px}
+    nav {position:static}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌍 MOJE ZWIERZĘTA</h1>
+    <p>Wielki atlas fascynującego świata przyrody</p>
+</header>
+
+<nav>
+    <button onclick="go('animals')">🐾 Zwierzęta</button>
+    <button onclick="go('facts')">💡 Ciekawostki</button>
+    <button onclick="go('quiz')">🧠 Quiz</button>
+    <button onclick="showFavorites()">⭐ Ulubione</button>
+</nav>
+
+<main>
+
+<section class="intro">
+    <h2>Witaj w świecie zwierząt!</h2>
+    <p>
+        Zapraszamy do niezwykłej podróży przez kontynenty,
+        oceany, lasy i pustynie. Poznaj zwierzęta, zobacz ich
+        fotografie, dowiedz się, jak żyją i posłuchaj ich odgłosów.
+        Sprawdź też swoją wiedzę w quizie!
+    </p>
+</section>
+
+<section id="animals">
+
+<h2 class="section-title">🐾 Wielki atlas zwierząt</h2>
+
+<div class="search">
+    <input id="search" placeholder="🔍 Wyszukaj zwierzę..." oninput="render()">
+    <button onclick="randomAnimal()">🎲 Losuj zwierzę</button>
+</div>
+
+<div class="filters">
+    <button class="active" onclick="setCategory('Wszystkie',this)">Wszystkie</button>
+    <button onclick="setCategory('Ssaki',this)">Ssaki</button>
+    <button onclick="setCategory('Ptaki',this)">Ptaki</button>
+    <button onclick="setCategory('Gady',this)">Gady</button>
+    <button onclick="setCategory('Płazy',this)">Płazy</button>
+    <button onclick="setCategory('Ryby',this)">Ryby</button>
+</div>
+
+<div id="grid" class="grid"></div>
+
+</section>
+
+<section id="facts" class="panel">
+    <h2>💡 Centrum ciekawostek</h2>
+    <div class="fact-box" id="fact">
+        Kliknij przycisk, aby odkryć ciekawostkę ze świata zwierząt!
+    </div>
+    <button onclick="randomFact()">Odkryj ciekawostkę ✨</button>
+</section>
+
+<section id="quiz" class="panel">
+    <h2>🧠 Wielki quiz przyrodniczy</h2>
+    <p>10 pytań. Poziom średni. Ile punktów zdobędziesz?</p>
+    <br>
+
+    <div id="quizStart">
+        <button onclick="startQuiz()">Rozpocznij quiz 🚀</button>
+    </div>
+
+    <div id="quizGame" style="display:none">
+        <p id="progress"></p>
+        <div id="question" class="quiz-question"></div>
+        <div id="options" class="quiz-options"></div>
+        <p id="feedback"></p>
+        <button id="next" onclick="nextQuestion()" style="display:none">
+            Następne pytanie ➜
+        </button>
+    </div>
+
+    <div id="result"></div>
+</section>
+
+</main>
+
+<div class="modal" id="modal" onclick="outside(event)">
+    <div class="modal-content">
+        <button class="close" onclick="closeModal()">✖ Zamknij</button>
+        <div id="details"></div>
+    </div>
+</div>
+
+<footer>
+    <h3>🌿 Moje Zwierzęta</h3>
+    <p>Odkrywaj. Ucz się. Chroń przyrodę.</p>
+    <p>Projekt edukacyjny</p>
+</footer>
+
+<script>
+
+const animals = [
+{
+n:"Lew", e:"🦁", c:"Ssaki",
+hab:"Afrykańskie sawanny i otwarte tereny trawiaste.",
+food:"Głównie mięso dużych ssaków.",
+life:"Około 10–15 lat na wolności.",
+desc:"Lew jest dużym drapieżnikiem z rodziny kotowatych. Samce często mają charakterystyczną grzywę. Lwy żyją w grupach rodzinnych zwanych stadami.",
+adapt:"Silne szczęki, ostre kły, pazury i dobry wzrok pomagają mu polować.",
+fact:"Ryk lwa może być słyszalny z dużej odległości. Służy między innymi do komunikowania się z innymi lwami.",
+img:"lion"
+},
+{
+n:"Tygrys",e:"🐅",c:"Ssaki",
+hab:"Lasy, mokradła i trawiaste obszary Azji.",
+food:"Jelenie, dziki i inne zwierzęta.",
+life:"Około 10–15 lat na wolności.",
+desc:"Tygrys jest największym współcześnie żyjącym kotowatym. Zwykle prowadzi samotniczy tryb życia.",
+adapt:"Paski pomagają mu wtapiać się w otoczenie. Jest dobrym pływakiem.",
+fact:"Każdy tygrys ma unikalny układ pasków, podobnie jak ludzie mają różne odciski palców.",
+img:"tiger"
+},
+{
+n:"Słoń afrykański",e:"🐘",c:"Ssaki",
+hab:"Sawanny, lasy i tereny z dostępem do wody w Afryce.",
+food:"Trawy, liście, gałęzie, kora i owoce.",
+life:"Około 60–70 lat.",
+desc:"Słoń afrykański jest największym współcześnie żyjącym zwierzęciem lądowym. Żyje w grupach rodzinnych.",
+adapt:"Trąba pomaga mu chwytać pokarm, pić wodę i komunikować się.",
+fact:"Słonie mogą porozumiewać się dźwiękami o bardzo niskiej częstotliwości, które przemieszczają się na duże odległości.",
+img:"african elephant"
+},
+{
+n:"Niedźwiedź brunatny",e:"🐻",c:"Ssaki",
+hab:"Lasy, góry i obszary północnej półkuli.",
+food:"Owoce, rośliny, owady, ryby i inne zwierzęta.",
+life:"Około 20–30 lat.",
+desc:"Niedźwiedź brunatny to duży ssak z rodziny niedźwiedziowatych. Występuje również w Polsce, między innymi w Karpatach.",
+adapt:"Ma bardzo dobry węch, silne kończyny i grube futro.",
+fact:"Niedźwiedzie potrafią pokonywać duże odległości w poszukiwaniu pożywienia. Ich dieta zmienia się zależnie od pory roku.",
+img:"brown bear"
+},
+{
+n:"Wilk szary",e:"🐺",c:"Ssaki",
+hab:"Lasy, góry, tundra i inne rozległe tereny.",
+food:"Głównie duże i średnie ssaki.",
+life:"Około 6–8 lat na wolności.",
+desc:"Wilk szary jest drapieżnym ssakiem żyjącym często w grupach rodzinnych zwanych watahami.",
+adapt:"Ma dobrze rozwinięty słuch, węch i wytrzymałość podczas długich wędrówek.",
+fact:"Wycie wilków pomaga członkom grupy komunikować się i utrzymywać kontakt.",
+img:"gray wolf"
+},
+{
+n:"Lis rudy",e:"🦊",c:"Ssaki",
+hab:"Lasy, łąki, pola, góry, a nawet okolice miast.",
+food:"Gryzonie, owady, owoce i ptaki.",
+life:"Zwykle kilka lat na wolności.",
+desc:"Lis rudy to jeden z najbardziej rozpowszechnionych gatunków lisów. Jest aktywny głównie o zmierzchu i nocą.",
+adapt:"Duże uszy pomagają mu wykrywać dźwięki wydawane przez małe zwierzęta.",
+fact:"Lis potrafi usłyszeć ruch niewielkiej ofiary ukrytej pod śniegiem.",
+img:"red fox"
+},
+{
+n:"Żyrafa",e:"🦒",c:"Ssaki",
+hab:"Afrykańskie sawanny i zadrzewione tereny.",
+food:"Liście i pędy drzew, szczególnie akacji.",
+life:"Około 20–25 lat.",
+desc:"Żyrafa jest najwyższym współcześnie żyjącym zwierzęciem lądowym. Jej długa szyja pomaga dosięgać liści na wysokich drzewach.",
+adapt:"Długi język i silne serce pomagają jej zdobywać pokarm i utrzymywać krążenie krwi.",
+fact:"Żyrafa, podobnie jak człowiek, ma zwykle siedem kręgów szyjnych.",
+img:"giraffe"
+},
+{
+n:"Panda wielka",e:"🐼",c:"Ssaki",
+hab:"Górskie lasy środkowych Chin.",
+food:"Przede wszystkim bambus.",
+life:"Około 15–20 lat na wolności.",
+desc:"Panda wielka należy do rodziny niedźwiedziowatych. Większość czasu spędza na poszukiwaniu i jedzeniu pokarmu.",
+adapt:"Ma specjalną strukturę kości nadgarstka, która pomaga jej chwytać łodygi bambusa.",
+fact:"Panda może spędzać wiele godzin dziennie na jedzeniu bambusa, ponieważ dostarcza on stosunkowo mało energii.",
+img:"giant panda"
+},
+{
+n:"Delfin",e:"🐬",c:"Ssaki",
+hab:"Morza i oceany.",
+food:"Ryby i głowonogi.",
+life:"Zależnie od gatunku.",
+desc:"Delfiny są ssakami morskimi. Oddychają powietrzem atmosferycznym i karmią młode mlekiem.",
+adapt:"Wykorzystują echolokację, czyli wysyłają dźwięki i odbierają ich echo.",
+fact:"Delfiny mogą rozpoznawać charakterystyczne sygnały dźwiękowe innych osobników.",
+img:"dolphin"
+},
+{
+n:"Koala",e:"🐨",c:"Ssaki",
+hab:"Lasy eukaliptusowe Australii.",
+food:"Liście eukaliptusa.",
+life:"Około 10–15 lat.",
+desc:"Koala jest torbaczem prowadzącym nadrzewny tryb życia. Większość czasu odpoczywa.",
+adapt:"Ma mocne łapy i pazury pomagające wspinać się po drzewach.",
+fact:"Koale mają bardzo wyspecjalizowany układ pokarmowy, który pomaga im trawić liście eukaliptusa.",
+img:"koala"
+},
+{
+n:"Kangur",e:"🦘",c:"Ssaki",
+hab:"Australia — od lasów po suche tereny trawiaste.",
+food:"Trawy i inne rośliny.",
+life:"Zależnie od gatunku.",
+desc:"Kangury to torbacze znane z poruszania się za pomocą skoków. Młode rozwijają się początkowo w torbie matki.",
+adapt:"Silne tylne kończyny i długi ogon pomagają w skakaniu i utrzymywaniu równowagi.",
+fact:"Kangury mogą przemieszczać się dużymi skokami, oszczędzając energię podczas szybszego ruchu.",
+img:"kangaroo"
+},
+{
+n:"Jeż europejski",e:"🦔",c:"Ssaki",
+hab:"Lasy, ogrody, parki i zarośla.",
+food:"Owady, dżdżownice i inne drobne bezkręgowce.",
+life:"Zwykle kilka lat.",
+desc:"Jeż europejski jest niewielkim ssakiem aktywnym głównie nocą.",
+adapt:"Kolce stanowią ochronę przed częścią drapieżników.",
+fact:"Jeże zapadają w sen zimowy, gdy warunki i dostępność pokarmu stają się niekorzystne.",
+img:"hedgehog"
+},
+{
+n:"Zebra",e:"🦓",c:"Ssaki",
+hab:"Afrykańskie sawanny.",
+food:"Trawy i inne rośliny.",
+life:"Około 20–25 lat.",
+desc:"Zebry należą do rodziny koniowatych. Żyją w grupach i są roślinożerne.",
+adapt:"Mocne nogi pomagają im szybko biegać.",
+fact:"Układ pasków każdej zebry jest inny.",
+img:"zebra"
+},
+{
+n:"Pingwin cesarski",e:"🐧",c:"Ptaki",
+hab:"Antarktyda.",
+food:"Ryby, kryl i głowonogi.",
+life:"Około 15–20 lat.",
+desc:"Pingwin cesarski jest największym gatunkiem pingwina. Jest doskonale przystosowany do życia w zimnym środowisku.",
+adapt:"Gęste pióra i warstwa tłuszczu ograniczają utratę ciepła.",
+fact:"Samce pingwinów cesarskich wysiadują jaja na stopach, osłaniając je fałdem skóry.",
+img:"emperor penguin"
+},
+{
+n:"Orzeł bielik",e:"🦅",c:"Ptaki",
+hab:"Okolice jezior, rzek i wybrzeży.",
+food:"Ryby i ptaki wodne.",
+life:"Wiele dziesięcioleci.",
+desc:"Bielik jest dużym ptakiem drapieżnym. W Polsce można go spotkać między innymi nad jeziorami i rzekami.",
+adapt:"Szerokie skrzydła pomagają mu szybować.",
+fact:"Bielik jest jednym z największych ptaków drapieżnych występujących w Europie.",
+img:"white tailed eagle"
+},
+{
+n:"Sowa",e:"🦉",c:"Ptaki",
+hab:"Lasy, pola i inne tereny.",
+food:"Gryzonie i drobne zwierzęta.",
+life:"Zależnie od gatunku.",
+desc:"Sowy to ptaki drapieżne. Wiele gatunków prowadzi nocny tryb życia.",
+adapt:"Specjalna budowa piór pozwala wielu sowom latać bardzo cicho.",
+fact:"Sowy mają asymetrycznie rozmieszczone otwory uszne, co pomaga im dokładniej lokalizować źródło dźwięku.",
+img:"owl"
+},
+{
+n:"Flaming",e:"🦩",c:"Ptaki",
+hab:"Płytkie jeziora, laguny i słone mokradła.",
+food:"Drobne skorupiaki, glony i inne organizmy.",
+life:"Zależnie od gatunku.",
+desc:"Flamingi to ptaki brodzące, które często żyją w dużych koloniach.",
+adapt:"Długi dziób umożliwia filtrowanie pokarmu z wody i mułu.",
+fact:"Różowy kolor piór flamingów jest związany z barwnikami zawartymi w ich pokarmie.",
+img:"flamingo"
+},
+{
+n:"Papuga ara",e:"🦜",c:"Ptaki",
+hab:"Tropikalne lasy Ameryki Środkowej i Południowej.",
+food:"Owoce, nasiona i orzechy.",
+life:"Wiele dziesięcioleci, zależnie od gatunku.",
+desc:"Ary to duże, kolorowe papugi żyjące głównie w lasach tropikalnych.",
+adapt:"Mocny dziób pomaga rozłupywać twarde nasiona i orzechy.",
+fact:"Niektóre ary zbierają się w grupach przy miejscach bogatych w minerały.",
+img:"macaw parrot"
+},
+{
+n:"Paw",e:"🦚",c:"Ptaki",
+hab:"Lasy i zadrzewione tereny Azji.",
+food:"Nasiona, owoce, owady i drobne zwierzęta.",
+life:"Zależnie od gatunku.",
+desc:"Paw indyjski słynie z barwnego upierzenia. Samce rozkładają ozdobny ogon podczas prezentacji godowej.",
+adapt:"Długie pióra ogonowe są elementem zachowań godowych.",
+fact:"Ozdobne wzory na piórach pawia przypominają kolorowe oczy.",
+img:"peacock"
+},
+{
+n:"Żółw",e:"🐢",c:"Gady",
+hab:"Lądy, rzeki, jeziora lub morza — zależnie od gatunku.",
+food:"Rośliny lub drobne zwierzęta.",
+life:"Zależnie od gatunku, niektóre żyją bardzo długo.",
+desc:"Żółwie to gady wyróżniające się pancerzem połączonym ze szkieletem.",
+adapt:"Pancerz stanowi ochronę ciała.",
+fact:"Żółwie nie mogą po prostu wyjść ze swojego pancerza — jest on częścią ich szkieletu.",
+img:"turtle"
+},
+{
+n:"Krokodyl",e:"🐊",c:"Gady",
+hab:"Rzeki, jeziora i mokradła ciepłych regionów.",
+food:"Ryby, ptaki i inne zwierzęta.",
+life:"Zależnie od gatunku.",
+desc:"Krokodyle to duże gady prowadzące ziemno-wodny tryb życia.",
+adapt:"Oczy i nozdrza umieszczone wysoko na głowie pomagają obserwować otoczenie, gdy ciało jest zanurzone.",
+fact:"Krokodyle opiekują się młodymi i mogą przenosić je w pysku.",
+img:"crocodile"
+},
+{
+n:"Kameleon",e:"🦎",c:"Gady",
+hab:"Głównie Afryka i Madagaskar.",
+food:"Przede wszystkim owady.",
+life:"Zależnie od gatunku.",
+desc:"Kameleony to gady znane z ruchomych oczu i zdolności zmiany barwy skóry.",
+adapt:"Długi, lepki język pomaga im chwytać owady.",
+fact:"Zmiana koloru skóry służy między innymi komunikacji i regulacji temperatury.",
+img:"chameleon"
+},
+{
+n:"Wąż",e:"🐍",c:"Gady",
+hab:"Lasy, pustynie, łąki i tereny podmokłe.",
+food:"Zależnie od gatunku: gryzonie, ptaki, ryby lub inne zwierzęta.",
+life:"Zależnie od gatunku.",
+desc:"Węże są gadami o wydłużonym ciele i bez kończyn.",
+adapt:"Rozwidlony język pomaga zbierać cząsteczki zapachowe z otoczenia.",
+fact:"Węże nie mają ruchomych powiek — ich oczy są chronione przez przezroczystą łuskę.",
+img:"snake"
+},
+{
+n:"Żaba",e:"🐸",c:"Płazy",
+hab:"Stawy, jeziora, mokradła i wilgotne lasy.",
+food:"Owady i inne małe bezkręgowce.",
+life:"Zależnie od gatunku.",
+desc:"Żaby są płazami, których rozwój często obejmuje stadium kijanki.",
+adapt:"Wilgotna skóra uczestniczy w wymianie gazowej.",
+fact:"Kijanki oddychają skrzelami, a dorosłe żaby korzystają z płuc i skóry.",
+img:"frog"
+},
+{
+n:"Salamandra plamista",e:"🦎",c:"Płazy",
+hab:"Wilgotne lasy i okolice strumieni.",
+food:"Dżdżownice, ślimaki i owady.",
+life:"Nawet kilkadziesiąt lat.",
+desc:"Salamandra plamista to płaz ogoniasty o czarnym ciele z żółtymi plamami.",
+adapt:"Gruczoły skórne wydzielają substancje obronne.",
+fact:"Charakterystyczny żółto-czarny wzór salamandry ostrzega inne zwierzęta.",
+img:"fire salamander"
+},
+{
+n:"Rekin",e:"🦈",c:"Ryby",
+hab:"Morza i oceany.",
+food:"Ryby, skorupiaki lub inne organizmy morskie.",
+life:"Zależnie od gatunku.",
+desc:"Rekiny są rybami chrzęstnoszkieletowymi. Wiele gatunków aktywnie pływa w poszukiwaniu pokarmu.",
+adapt:"Ich zmysły pomagają wykrywać ruch i bodźce chemiczne w wodzie.",
+fact:"Szkielet rekina zbudowany jest głównie z chrząstki, a nie z kości.",
+img:"shark"
+},
+{
+n:"Błazenek",e:"🐠",c:"Ryby",
+hab:"Ciepłe wody raf koralowych.",
+food:"Drobne organizmy i resztki pokarmu.",
+life:"Zależnie od gatunku.",
+desc:"Błazenki to niewielkie, kolorowe ryby morskie.",
+adapt:"Żyją w symbiozie z ukwiałami, których parzydełka zapewniają im ochronę.",
+fact:"W grupie błazenków największy osobnik jest samicą, a po jej śmierci samiec może zmienić płeć.",
+img:"clownfish"
+},
+{
+n:"Ośmiornica",e:"🐙",c:"Ryby",
+hab:"Morza i oceany.",
+food:"Kraby, małże i inne morskie zwierzęta.",
+life:"Zwykle od kilku miesięcy do kilku lat, zależnie od gatunku.",
+desc:"Ośmiornica jest mięczakiem, a nie rybą. Ma osiem ramion wyposażonych w przyssawki.",
+adapt:"Potrafi zmieniać kolor i fakturę skóry, aby się ukrywać.",
+fact:"Ośmiornice mają trzy serca, a ich krew zawiera hemocyjaninę.",
+img:"octopus"
+},
+{
+n:"Konik morski",e:"🐴",c:"Ryby",
+hab:"Płytkie wody morskie i łąki podwodne.",
+food:"Drobne skorupiaki.",
+life:"Zależnie od gatunku.",
+desc:"Koniki morskie to ryby o charakterystycznej sylwetce. Pływają w pozycji pionowej.",
+adapt:"Ogon pomaga im przyczepiać się do roślin podwodnych.",
+fact:"U koników morskich samiec nosi rozwijające się młode w specjalnej torbie lęgowej.",
+img:"seahorse"
+},
+{
+n:"Wieloryb błękitny",e:"🐋",c:"Ssaki",
+hab:"Oceany na całym świecie.",
+food:"Głównie kryl.",
+life:"Około 70–90 lat, czasem dłużej.",
+desc:"Płetwal błękitny jest największym znanym zwierzęciem w historii Ziemi.",
+adapt:"Pływając, wykorzystuje potężny ogon i opływowy kształt ciała.",
+fact:"Jego serce jest ogromne, a język może ważyć tyle, co duże zwierzę lądowe.",
+img:"blue whale"
+},
+{
+n:"Goryl",e:"🦍",c:"Ssaki",
+hab:"Tropikalne lasy Afryki.",
+food:"Liście, pędy, owoce i inne części roślin.",
+life:"Około 35–40 lat na wolności.",
+desc:"Goryle są dużymi małpami człekokształtnymi. Żyją w grupach rodzinnych.",
+adapt:"Silne kończyny pomagają im poruszać się po leśnym podłożu.",
+fact:"Goryle tworzą więzi społeczne i komunikują się za pomocą gestów oraz dźwięków.",
+img:"gorilla"
+},
+{
+n:"Lis polarny",e:"❄️",c:"Ssaki",
+hab:"Arktyczna tundra.",
+food:"Gryzonie, ptaki, jaja i padlina.",
+life:"Zależnie od warunków.",
+desc:"Lis polarny jest niewielkim drapieżnym ssakiem przystosowanym do bardzo niskich temperatur.",
+adapt:"Gęste futro i owłosione łapy ograniczają utratę ciepła.",
+fact:"Zimą futro lisa polarnego zwykle staje się białe, co pomaga mu kamuflować się na śniegu.",
+img:"arctic fox"
+}
+];
+
+let category = "Wszystkie";
+let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+let favoritesOnly = false;
+
+function render() {
+    let grid = document.getElementById("grid");
+    let search = document.getElementById("search").value.toLowerCase();
+
+    grid.innerHTML = "";
+
+    let list = animals.filter(a =>
+        (category === "Wszystkie" || a.c === category) &&
+        a.n.toLowerCase().includes(search) &&
+        (!favoritesOnly || favorites.includes(a.n))
+    );
+
+    if (!list.length) {
+        grid.innerHTML = "<p>Nie znaleziono zwierząt.</p>";
+        return;
+    }
+
+    list.forEach(a => {
+        let card = document.createElement("div");
+        card.className = "card";
+
+        let imageUrl = "https://loremflickr.com/640/420/" +
+            encodeURIComponent(a.img + ",animal");
+
+        card.innerHTML = `
+            <img src="${imageUrl}"
+                 alt="Zdjęcie: ${a.n}"
+                 loading="lazy"
+                 onerror="this.style.display='none'">
+
+            <div class="card-content">
+                <h3>${a.e} ${a.n}</h3>
+                <p>${a.c}</p>
+
+                <div class="card-buttons">
+                    <button onclick="openAnimal('${a.n}')">📖 Profil</button>
+                    <button onclick="favorite('${a.n}')">
+                        ${favorites.includes(a.n) ? "⭐" : "☆"}
+                    </button>
+                </div>
+            </div>
+        `;
+
+        grid.appendChild(card);
+    });
+}
+
+function setCategory(value,btn) {
+    category = value;
+    favoritesOnly = false;
+
+    document.querySelectorAll(".filters button")
+    .forEach(x => x.classList.remove("active"));
+
+    btn.classList.add("active");
+    render();
+}
+
+function favorite(name) {
+    if (favorites.includes(name)) {
+        favorites = favorites.filter(x => x !== name);
+    } else {
+        favorites.push(name);
+    }
+
+    localStorage.setItem("favorites",JSON.stringify(favorites));
+    render();
+}
+
+function showFavorites() {
+    favoritesOnly = true;
+    category = "Wszystkie";
+    render();
+    go("animals");
+}
+
+function openAnimal(name) {
+    let a = animals.find(x => x.n === name);
+
+    document.getElementById("details").innerHTML = `
+        <h2>${a.e} ${a.n}</h2>
+
+        <img
+        src="https://loremflickr.com/800/450/${encodeURIComponent(a.img + ",animal")}"
+        alt="Zdjęcie ${a.n}"
+        onerror="this.style.display='none'">
+
+        <p><b>Klasyfikacja:</b> ${a.c}</p>
+        <p><b>Środowisko życia:</b> ${a.hab}</p>
+        <p><b>Pożywienie:</b> ${a.food}</p>
+        <p><b>Długość życia:</b> ${a.life}</p>
+        <p><b>Opis:</b> ${a.desc}</p>
+        <p><b>Przystosowania:</b> ${a.adapt}</p>
+        <p><b>Fascynująca ciekawostka:</b> ${a.fact}</p>
+
+        <button onclick="favorite('${a.n}');openAnimal('${a.n}')">
+            ${favorites.includes(a.n) ? "Usuń z ulubionych ⭐" : "Dodaj do ulubionych ☆"}
+        </button>
+
+        <br><br>
+
+        <button onclick="soundLibrary('${a.n}')">
+            🔊 Posłuchaj odgłosów
+        </button>
+    `;
+
+    document.getElementById("modal").style.display = "flex";
+}
+
+function soundLibrary(name) {
+    window.open(
+        "https://animalfactfile.com/animal-sounds/",
+        "_blank",
+        "noopener,noreferrer"
+    );
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+function outside(event) {
+    if(event.target.id === "modal") closeModal();
+}
+
+function randomAnimal() {
+    let a = animals[Math.floor(Math.random()*animals.length)];
+    openAnimal(a.n);
+}
+
+function go(id) {
+    document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+const facts = [
+"🐙 Ośmiornice mają trzy serca. Dwa pomagają pompować krew przez skrzela, a trzecie dostarcza ją do reszty ciała.",
+
+"🐘 Słonie mają bardzo dobrze rozwinięty węch. Trąba służy im do oddychania, chwytania pokarmu, picia i komunikacji.",
+
+"🦒 Żyrafy mają siedem kręgów szyjnych, podobnie jak ludzie. U żyraf są one jednak znacznie wydłużone.",
+
+"🐬 Delfiny wykorzystują echolokację. Wysyłają dźwięki, a następnie analizują echo odbite od obiektów.",
+
+"🦇 Nietoperze nie są ślepe. Wiele gatunków wykorzystuje echolokację, ale potrafi również widzieć.",
+
+"🐧 Pingwiny cesarskie rozmnażają się podczas antarktycznej zimy. Samiec ogrzewa jajo na stopach pod fałdem skóry.",
+
+"🦈 Rekiny mają szkielet z chrząstki. To inny rodzaj tkanki niż twarda kość.",
+
+"🐼 Panda wielka należy do niedźwiedziowatych. Jej dieta składa się przede wszystkim z bambusa.",
+
+"🦉 Sowy mają doskonały słuch. Niektóre gatunki potrafią lokalizować ofiarę nawet w ciemności.",
+
+"🦎 Kameleony zmieniają kolor skóry nie tylko po to, aby się ukrywać. Kolor może również przekazywać informacje innym osobnikom.",
+
+"🐢 Pancerz żółwia jest połączony z jego szkieletem. Nie jest oddzielnym przedmiotem, który zwierzę może zdjąć.",
+
+"🦩 Flamingi zawdzięczają różowe ubarwienie barwnikom obecnym w ich pokarmie.",
+
+"🐺 Wilki komunikują się za pomocą zapachów, dźwięków, wycia i mowy ciała.",
+
+"🦦 Wydry morskie mają bardzo gęste futro, które pomaga im utrzymywać ciepło w zimnej wodzie.",
+
+"🦋 Motyle odbierają smak między innymi za pomocą receptorów znajdujących się na odnóżach.",
+
+"🐻 Niedźwiedzie brunatne potrafią wykorzystywać różne źródła pokarmu, od owoców i roślin po ryby.",
+
+"🐊 Krokodyle mają bardzo silne szczęki. Jednocześnie ich młode wymagają opieki rodziców.",
+
+"🐸 Żaby mogą oddychać nie tylko płucami, lecz także przez wilgotną skórę.",
+
+"🦜 Niektóre papugi potrafią naśladować dźwięki otoczenia, w tym ludzką mowę.",
+
+"🐋 Płetwal błękitny jest największym znanym zwierzęciem, jakie kiedykolwiek żyło na Ziemi."
+];
+
+function randomFact() {
+    let fact = facts[Math.floor(Math.random()*facts.length)];
+    document.getElementById("fact").textContent = fact;
+}
+
+/* QUIZ */
+
+const questions = [
+{
+q:"Jak nazywa się nauka zajmująca się ptakami?",
+a:["Ornitologia","Entomologia","Herpetologia","Ichtiologia"],
+c:0,
+f:"Ornitologia to dział zoologii zajmujący się ptakami."
+},
+{
+q:"Które zwierzę wykorzystuje echolokację?",
+a:["Delfin","Żyrafa","Panda","Kangur"],
+c:0,
+f:"Delfiny wykorzystują odbite dźwięki do orientacji i wykrywania obiektów."
+},
+{
+q:"Co odróżnia ssaki od większości innych grup zwierząt?",
+a:["Każdy ssak składa jaja","Samice karmią młode mlekiem","Wszystkie ssaki żyją na lądzie","Wszystkie ssaki mają futro"],
+c:1,
+f:"Charakterystyczną cechą ssaków są gruczoły mlekowe, które produkują mleko dla młodych."
+},
+{
+q:"Jak nazywa się przeobrażenie kijanki w dorosłą żabę?",
+a:["Fotosynteza","Metamorfoza","Hibernacja","Fermentacja"],
+c:1,
+f:"Metamorfoza to proces zmian budowy ciała podczas rozwoju."
+},
+{
+q:"Które zwierzę jest torbaczem?",
+a:["Koala","Tygrys","Wilk","Lis"],
+c:0,
+f:"Koala należy do torbaczy. Młode rozwija się początkowo w torbie matki."
+},
+{
+q:"Z czego zbudowany jest głównie szkielet rekina?",
+a:["Z chrząstki","Z drewna","Z pancerza","Z kości pneumatycznych"],
+c:0,
+f:"Rekiny należą do ryb chrzęstnoszkieletowych."
+},
+{
+q:"Które zwierzę ma trzy serca?",
+a:["Pingwin","Ośmiornica","Delfin","Żółw"],
+c:1,
+f:"Ośmiornica ma trzy serca, które uczestniczą w krążeniu krwi."
+},
+{
+q:"Dlaczego flamingi są często różowe?",
+a:["Przez temperaturę wody","Przez barwniki w pokarmie","Przez odbicie nieba","Przez piasek"],
+c:1,
+f:"Barwniki zawarte w pokarmie wpływają na kolor piór flamingów."
+},
+{
+q:"Która grupa zwierząt przechodzi stadium kijanki?",
+a:["Ssaki","Ptaki","Płazy","Gady"],
+c:2,
+f:"Wiele płazów, w tym żaby, przechodzi rozwój od kijanki do dorosłej postaci."
+},
+{
+q:"Co pomaga kameleonowi chwytać owady?",
+a:["Długi lepki język","Płetwy","Skrzydła","Pancerz"],
+c:0,
+f:"Kameleon potrafi szybko wysuwać długi, lepki język, którym chwyta owady."
+}
+];
+
+let index = 0;
+let score = 0;
+let answered = false;
+
+function startQuiz() {
+    index = 0;
+    score = 0;
+
+    document.getElementById("quizStart").style.display = "none";
+    document.getElementById("result").innerHTML = "";
+    document.getElementById("quizGame").style.display = "block";
+
+    showQuestion();
+}
+
+function showQuestion() {
+    answered = false;
+    let q = questions[index];
+
+    document.getElementById("progress").textContent =
+        "Pytanie " + (index+1) + " / " + questions.length;
+
+    document.getElementById("question").textContent = q.q;
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("next").style.display = "none";
+
+    let box = document.getElementById("options");
+    box.innerHTML = "";
+
+    q.a.forEach((answer,i) => {
+        let btn = document.createElement("button");
+        btn.textContent = answer;
+        btn.onclick = () => checkAnswer(i);
+        box.appendChild(btn);
+    });
+}
+
+function checkAnswer(choice) {
+    if(answered) return;
+
+    answered = true;
+
+    let q = questions[index];
+    let buttons = document.querySelectorAll("#options button");
+
+    buttons.forEach((btn,i) => {
+        btn.disabled = true;
+
+        if(i === q.c) {
+            btn.style.background = "#176b48";
+        } else if(i === choice) {
+            btn.style.background = "#873c55";
+        }
+    });
+
+    if(choice === q.c) {
+        score++;
+        document.getElementById("feedback").textContent =
+            "✅ Brawo! " + q.f;
+    } else {
+        document.getElementById("feedback").textContent =
+            "❌ Nie tym razem. " + q.f;
+    }
+
+    document.getElementById("next").style.display = "inline-block";
+}
+
+function nextQuestion() {
+    index++;
+
+    if(index < questions.length) {
+        showQuestion();
+    } else {
+        finishQuiz();
+    }
+}
+
+function finishQuiz() {
+    document.getElementById("quizGame").style.display = "none";
+
+    let message = "";
+
+    if(score >= 9) {
+        message = "🏆 Fantastycznie! Masz ogromną wiedzę!";
+    } else if(score >= 7) {
+        message = "🌟 Bardzo dobry wynik!";
+    } else if(score >= 5) {
+        message = "👍 Całkiem dobrze! Warto jeszcze poćwiczyć.";
+    } else {
+        message = "📚 Nie poddawaj się! Poznaj zwierzęta i spróbuj ponownie.";
+    }
+
+    document.getElementById("result").innerHTML = `
+        <h3>Twój wynik: ${score}/10</h3>
+        <p>${message}</p>
+        <br>
+        <button onclick="startQuiz()">Zagraj ponownie 🔄</button>
+    `;
+
+    document.getElementById("quizStart").style.display = "block";
+}
+
+render();
+
+</script>
+
+</body>
+</html>
